@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it"><head><meta charset="utf-8">
+<html lang="it" class="xm"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6366f1"><title>Study With Me</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -94,6 +94,15 @@ textarea{width:100%;font:inherit;color:var(--tx);background:var(--cd);border:1px
 .bt{padding:10px 12px}.bt b{display:block}.bt small{color:var(--mu);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #md{display:none;position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);padding:20px;overflow:auto}#md.on{display:block}
 .mc{background:var(--cd);color:var(--tx);border-radius:24px;padding:16px;max-width:520px;margin:6vh auto}.mc img{width:100%;border-radius:16px;display:block}
+#pn{cursor:pointer}
+html.xm{--ac:#dc2626;--g:linear-gradient(135deg,#b91c1c,#dc2626 45%,#15803d)}
+.xm body{background:radial-gradient(700px 420px at 100% 0,rgba(220,38,38,.12),transparent 60%),radial-gradient(600px 420px at 0 30%,rgba(22,163,74,.13),transparent 60%),var(--bg);background-attachment:fixed}
+.xm .top{box-shadow:0 18px 40px -16px rgba(185,28,28,.65)}.xm .btn{box-shadow:0 12px 24px -10px rgba(185,28,28,.7)}.xm .chip.on{box-shadow:0 8px 18px -8px rgba(185,28,28,.8)}
+.xm .top::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:2;background:radial-gradient(circle at 8px 7px,#ef4444 4px,transparent 5px) 0 0/64px 14px repeat-x,radial-gradient(circle at 24px 7px,#facc15 4px,transparent 5px) 0 0/64px 14px repeat-x,radial-gradient(circle at 40px 7px,#22c55e 4px,transparent 5px) 0 0/64px 14px repeat-x,radial-gradient(circle at 56px 7px,#60a5fa 4px,transparent 5px) 0 0/64px 14px repeat-x;animation:tw 1.4s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.5}to{opacity:1}}
+.xm #sp{background:linear-gradient(135deg,#991b1b,#dc2626,#166534,#14532d);background-size:300% 300%}
+.xm #sp .b,.xm .logo{font-size:0}.xm #sp .b::after{content:"🎄";font-size:70px}.xm .logo::after{content:"🎄";font-size:52px}.xm .top h1::after{content:" 🎄"}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 </style></head>
 <body>
 <div id="sp"><div class="b">📚</div><h1>Study With Me</h1><p>made by Angelo</p><p>powered by Claude</p></div>
@@ -107,11 +116,15 @@ textarea{width:100%;font:inherit;color:var(--tx);background:var(--cd);border:1px
 const SB_URL="https://bayeetdnelokwtxgtsmr.supabase.co",SB_KEY="sb_publishable_kA1WKO0Dz7aaEg-3GBs3RA_AzV_B3cJ";
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const sb=supabase.createClient(SB_URL,SB_KEY);
-let me=null,docs=[],ppl=[],tab="lib",q="",armed="",cred=null,ev=[],curDoc="",lastBlur=0,ud={},subs=[],nts=[],posts=[],pimg={},cfg={},prof={},flt="all",rz=1,rm=0,curD=null,curPdf=null,io=null,curPg=0,curH=0,svT=0;
-try{rz=+localStorage.rz||1;rm=+localStorage.rm||0;if(localStorage.th)document.documentElement.dataset.theme=localStorage.th}catch(e){}
+const DEV=(()=>{try{let d=localStorage.swm_dev;if(!d){d=crypto.randomUUID();localStorage.swm_dev=d}return d}catch(e){return crypto.randomUUID()}})();
+let me=null,docs=[],ppl=[],tab="lib",q="",armed="",cred=null,ev=[],curDoc="",lastBlur=0,ud={},subs=[],nts=[],posts=[],allNotes=[],dvs=new Set(),notePg=1,pimg={},cfg={},prof={},flt="all",rz=1,rm=0,curD=null,curPdf=null,io=null,curPg=0,curH=0,svT=0;
+try{rz=+localStorage.rz||1;rm=+localStorage.rm||0;if(localStorage.th)document.documentElement.dataset.theme=localStorage.th;if(localStorage.xm==="0")document.documentElement.classList.remove("xm")}catch(e){}
 function tiles(){const a=$("#t1");if(!a)return;const v=Object.values(ud).filter(u=>docs.some(d=>d.id===u.doc_id));a.textContent=docs.length;$("#t2").textContent=v.filter(u=>u.done).length;$("#t3").textContent=v.filter(u=>u.fav).length}
 const sj=d=>subs.find(x=>x.name===d.subject);
-function applyCfg(){const r=document.documentElement.style;if(cfg.c1&&cfg.c2){r.setProperty("--g",`linear-gradient(135deg,${cfg.c1},${cfg.c2})`);r.setProperty("--ac",cfg.c1)}}
+function applyCfg(){const h=document.documentElement,r=h.style,x=cfg.xmas!=="0";h.classList.toggle("xm",x);try{localStorage.xm=x?"1":"0"}catch(e){}
+  if(!x&&cfg.c1&&cfg.c2){r.setProperty("--g",`linear-gradient(135deg,${cfg.c1},${cfg.c2})`);r.setProperty("--ac",cfg.c1)}else{r.removeProperty("--g");r.removeProperty("--ac")}}
+const X=()=>document.documentElement.classList.contains("xm");
+const xmsg=()=>{const n=new Date(),d=Math.ceil((new Date(n.getFullYear(),11,25)-n)/864e5);return d>1?d+" giorni a Natale 🎁":d===1?"Domani è Natale! 🎁":d===0?"Buon Natale! 🎅":"Buone Feste! 🥂"};
 const shrink=f=>new Promise((ok,ko)=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1200/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*k;c.height=i.height*k;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(b=>b?ok(b):ko("Immagine non valida"),"image/jpeg",.82)};i.onerror=()=>ko("Immagine non valida");i.src=URL.createObjectURL(f)});
 function bk(){const e=$("#bk");if(!e||!posts.length)return;
   e.innerHTML=`<h2>Bacheca</h2><div class="bks">${posts.map(x=>`<div class="bp" data-p="${x.id}">${x.image_path&&pimg[x.image_path]?`<img src="${pimg[x.image_path]}" alt="" draggable="false">`:`<div class="bph">📌</div>`}<div class="bt"><b>${x.pinned?"📌 ":""}${esc(x.title)}</b><small>${esc(x.body||"")}</small></div></div>`).join("")}</div>`}
@@ -129,7 +142,7 @@ function badge(){const b=$("#nb");if(b){const n=sus().length;b.textContent=n;b.s
 async function loadEv(){ev=(await sb.from("events").select("*").order("created_at",{ascending:false}).limit(600)).data||[];badge()}
 function actHtml(){const by={};sus().forEach(e=>{(by[e.email]=by[e.email]||[]).push(e)});
   const a=Object.entries(by).map(([m,l])=>`<div class="card"><div class="ct"><b>${esc(m)}</b><small>🔴 ${l.length} segnali · ultimo ${fd(l[0].created_at)}</small></div><button class="sm" data-bl="${esc(m)}">Blocca</button></div>`).join("");
-  return `<h2>Attività</h2>${a?a+`<button class="sm" id="seen" style="margin:0 0 10px">Segna come visti</button>`:`<p class="mu">Nessun segnale sospetto 👍</p>`}<details><summary class="mu">Ultime attività</summary>${ev.slice(0,20).map(e=>`<div class="ev">${{open:"📖",blur:"⚠️",print:"📸"}[e.kind]||"•"} ${esc(e.email)} · ${esc(e.doc_title||"")} · ${fd(e.created_at)}</div>`).join("")||`<p class="mu">Ancora niente.</p>`}</details>`}
+  return `<h2>Attività</h2>${a?a+`<button class="sm" id="seen" style="margin:0 0 10px">Segna come visti</button>`:`<p class="mu">Nessun segnale sospetto 👍</p>`}<details><summary class="mu">Ultime attività</summary>${ev.slice(0,20).map(e=>`<div class="ev">${{open:"📖",blur:"⚠️",print:"📸",device:"📱"}[e.kind]||"•"} ${esc(e.email)} · ${esc(e.doc_title||"")} · ${fd(e.created_at)}</div>`).join("")||`<p class="mu">Ancora niente.</p>`}</details>`}
 const genPw=()=>Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>"abcdefghjkmnpqrstuvwxyz23456789"[b%31]).join("");
 const ROLE={admin:"Admin",premium:"⭐ Premium",user:"Utente"},home=()=>location.origin+location.pathname;
 const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),3500)};
@@ -149,7 +162,9 @@ async function load(s){
   $("#app").innerHTML=`<div class="ld"></div>`;
   const {data:p,error:pe}=await sb.from("profiles").select("role,email,premium_until").eq("id",s.user.id).single();
   if(!p||p.role==="blocked"){await sb.auth.signOut();login(pe?"Errore: "+pe.message:p?"Account bloccato.":"Profilo non trovato: contatta Angelo.");return}
-  me={uid:s.user.id,email:p.email,role:p.role==="premium"&&p.premium_until&&new Date(p.premium_until)<new Date()?"user":p.role};await refresh()}
+  me={uid:s.user.id,email:p.email,role:p.role==="premium"&&p.premium_until&&new Date(p.premium_until)<new Date()?"user":p.role};
+  if(me.role!=="admin"){const r=await sb.rpc("claim_device",{p_device:DEV});if(r.error||r.data!=="ok"){await sb.auth.signOut();login(r.error?"Errore: "+r.error.message:"Questo account è già usato su un altro dispositivo. Chiedi ad Angelo di sbloccarlo.");return}}
+  await refresh()}
 async function refresh(){
   docs=(await sb.from("documents").select("*").order("created_at",{ascending:false})).data||[];
   posts=(await sb.from("posts").select("*").order("pinned",{ascending:false}).order("created_at",{ascending:false}).limit(20)).data||[];
@@ -157,11 +172,12 @@ async function refresh(){
   if(pp.length)((await sb.storage.from("bacheca").createSignedUrls(pp,3600)).data||[]).forEach(x=>pimg[x.path]=x.signedUrl);
   cfg={};((await sb.from("settings").select("*")).data||[]).forEach(r=>cfg[r.key]=r.value);applyCfg();
   subs=(await sb.from("subjects").select("*").order("name")).data||[];
+  allNotes=(await sb.from("notes").select("*").order("created_at",{ascending:false})).data||[];
   ud={};((await sb.from("user_docs").select("*")).data||[]).forEach(r=>ud[r.doc_id]=r);
-  if(me.role==="admin"){ppl=(await sb.from("invites").select("*").order("email")).data||[];prof={};((await sb.from("profiles").select("email,premium_until")).data||[]).forEach(r=>prof[r.email]=r);await loadEv()}
+  if(me.role==="admin"){ppl=(await sb.from("invites").select("*").order("email")).data||[];prof={};((await sb.from("profiles").select("id,email,premium_until")).data||[]).forEach(r=>prof[r.email]=r);dvs=new Set(((await sb.from("devices").select("user_id")).data||[]).map(r=>r.user_id));await loadEv()}
   shell()}
 function shell(){
-  $("#app").innerHTML=`<div class="top"><i class="bl b1"></i><i class="bl b2"></i><div class="row"><div><small>📚 Study With Me <span class="pill">${ROLE[me.role]}</span></small><h1>Ciao, ${esc(me.email.split("@")[0].replace(/^./,c=>c.toUpperCase()))}!</h1>${cfg.welcome?`<small style="display:block;margin-top:4px">${esc(cfg.welcome)}</small>`:""}</div><div class="acts"><button class="out" id="th">🌓</button><button class="out" id="lo">Esci</button></div></div><div class="tiles"><div><b id="t1">0</b><small>PDF</small></div><div><b id="t2">0</b><small>Finiti</small></div><div><b id="t3">0</b><small>Preferiti</small></div></div></div><main id="v"></main>${me.role==="admin"?`<nav><button data-t="lib">📖 Libreria</button><button data-t="adm">⚙️ Admin<span class="nb" id="nb"></span></button></nav>`:""}`;
+  $("#app").innerHTML=`<div class="top"><i class="bl b1"></i><i class="bl b2"></i><div class="row"><div><small>📚 Study With Me <span class="pill">${ROLE[me.role]}</span>${X()?`<span class="pill">${xmsg()}</span>`:""}</small><h1>${X()?"Buone Feste":"Ciao"}, ${esc(me.email.split("@")[0].replace(/^./,c=>c.toUpperCase()))}!</h1>${cfg.welcome?`<small style="display:block;margin-top:4px">${esc(cfg.welcome)}</small>`:""}</div><div class="acts"><button class="out" id="th">🌓</button><button class="out" id="lo">Esci</button></div></div><div class="tiles"><div><b id="t1">0</b><small>PDF</small></div><div><b id="t2">0</b><small>Finiti</small></div><div><b id="t3">0</b><small>Preferiti</small></div></div></div><main id="v"></main>${me.role==="admin"?`<nav><button data-t="lib">📖 Libreria</button><button data-t="adm">⚙️ Admin<span class="nb" id="nb"></span></button></nav>`:""}`;
   $("#lo").onclick=()=>sb.auth.signOut();
   $("#th").onclick=()=>{const c=document.documentElement,d=(c.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"))==="dark"?"light":"dark";c.dataset.theme=d;try{localStorage.th=d}catch(e){}};
   document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;view()});badge();tiles();view()}
@@ -170,9 +186,10 @@ function view(){
   if(tab==="adm"&&me.role==="admin")return adminView();
   $("#v").onchange=null;
   $("#v").innerHTML=`<div id="bk"></div><input id="sq" class="sq" placeholder="🔍 Cerca un PDF…" value="${esc(q)}"><div id="ch"></div><div id="ls"></div>`;
-  $("#v").onclick=e=>{const b=e.target.closest("[data-f],[data-fv],[data-dn],[data-o],[data-p]");if(!b)return;const D=b.dataset;
+  $("#v").onclick=e=>{const b=e.target.closest("[data-f],[data-fv],[data-dn],[data-o],[data-p],[data-nn]");if(!b)return;const D=b.dataset;
     if(D.f){flt=D.f;list()}
     else if(D.fv||D.dn){const id=D.fv||D.dn,u=ud[id]||{};saveUd(id,D.fv?{fav:!u.fav}:{done:!u.done});list();navigator.vibrate&&navigator.vibrate(8)}
+    else if(D.nn){const[i,g]=D.nn.split("|");openDoc(docs.find(d=>d.id===i),+g)}
     else if(D.p)showPost(posts.find(x=>x.id===D.p));
     else if(D.o)openDoc(docs.find(d=>d.id===D.o))};
   $("#sq").oninput=e=>{q=e.target.value;list()};list();bk()}
@@ -184,7 +201,8 @@ function list(){
   let f=docs.filter(d=>d.title.toLowerCase().includes(q.toLowerCase()));
   if(F==="fav")f=f.filter(d=>U(d.id).fav);else if(F==="done")f=f.filter(d=>U(d.id).done);else if(F.startsWith("s:"))f=f.filter(d=>d.subject===F.slice(2));
   const chip=(k,l)=>`<button class="chip${F===k?" on":""}" data-f="${esc(k)}">${l}</button>`;
-  $("#ch").innerHTML=chip("all","Tutti")+chip("fav","★ Preferiti")+chip("done","✓ Finiti")+subs.map(x=>chip("s:"+x.name,esc(x.icon)+" "+esc(x.name))).join("");
+  $("#ch").innerHTML=chip("all","Tutti")+chip("fav","★ Preferiti")+chip("done","✓ Finiti")+chip("notes","📝 Note")+subs.map(x=>chip("s:"+x.name,esc(x.icon)+" "+esc(x.name))).join("");
+  if(F==="notes"){$("#ls").innerHTML=allNotes.filter(n=>docs.some(d=>d.id===n.doc_id)).map(n=>{const d=docs.find(x=>x.id===n.doc_id);return `<div class="card" data-nn="${d.id}|${n.page}">${cover(d.title,d)}<div class="ct"><b>${esc(d.title)}</b><small>Pag. ${n.page} · ${esc(n.text||"Segnalibro")}</small></div><span class="go">›</span></div>`}).join("")||`<div class="empty"><div>📝</div>Ancora nessuna nota.</div>`;tiles();return}
   const row=d=>{const u=U(d.id),pc=u.total>1?Math.round((u.page||1)/u.total*100):0;
     return `<div class="card" data-o="${d.id}">${cover(d.title,d)}<div class="ct"><b>${esc(d.title)}</b><small>${esc(d.subject||"")}${d.subject?" · ":""}${tier(d)}${u.done?" · ✓ finito":u.page>1?` · pag. ${u.page}/${u.total}`:""}</small>${pc&&!u.done?`<div class="pb"><i style="width:${pc}%"></i></div>`:""}</div><button class="ib${u.fav?" on":""}" data-fv="${d.id}">${u.fav?"★":"☆"}</button><button class="ib${u.done?" on":""}" data-dn="${d.id}">✓</button></div>`};
   const sec=(t,a)=>a.length?`<h2>${t}</h2>`+a.map(row).join(""):"";
@@ -200,11 +218,11 @@ function adminView(){
   $("#v").innerHTML=`${actHtml()}${statHtml()}<h2>Carica un PDF</h2><div class="box"><input id="t" placeholder="Titolo"><select id="tr"><option value="user">Per tutti</option><option value="premium">Solo Premium</option></select><select id="sj"><option value="">Nessuna materia</option>${subs.map(x=>`<option value="${esc(x.name)}">${esc(x.icon)} ${esc(x.name)}</option>`).join("")}</select><input id="f" type="file" accept="application/pdf"><button class="btn" id="up">Carica</button></div>
 <h2>I tuoi PDF</h2>${docs.map(d=>`<div class="card wr">${cover(d.title,d)}<div class="ct"><b>${esc(d.title)}</b><small>${tier(d)}</small></div><select class="sm" data-sj="${d.id}"><option value="">—</option>${subs.map(x=>`<option${x.name===d.subject?" selected":""}>${esc(x.name)}</option>`).join("")}</select><button class="sm" data-tt="${d.id}">${d.tier==="premium"?"→ Tutti":"→ Premium"}</button><button class="sm" data-dl="${d.id}">${armed===d.id?"Sicuro?":"🗑"}</button></div>`).join("")||`<p class="mu">Nessun PDF.</p>`}
 <h2>Bacheca</h2><div class="box"><input id="pt" placeholder="Titolo"><textarea id="pb" rows="3" placeholder="Testo (facoltativo)"></textarea><select id="pa"><option value="user">Per tutti</option><option value="premium">Solo Premium</option></select><input id="pf" type="file" accept="image/*"><label class="mu"><input type="checkbox" id="pp" style="width:auto;margin-right:6px">Fissa in alto</label><button class="btn" id="padd" style="margin-top:10px">Pubblica</button></div><div style="height:10px"></div>${posts.map(x=>`<div class="card"><div class="ct"><b>${esc(x.title)}</b><small>${x.tier==="premium"?"⭐ Premium":"Per tutti"}${x.pinned?" · 📌":""}</small></div><button class="sm" data-pd="${x.id}">${armed===x.id?"Sicuro?":"🗑"}</button></div>`).join("")}
-<h2>Personalizza</h2><div class="box"><input id="cw" placeholder="Messaggio di benvenuto" value="${esc(cfg.welcome||"")}"><div style="display:flex;gap:10px"><input id="c1" type="color" value="${cfg.c1||"#6366f1"}"><input id="c2" type="color" value="${cfg.c2||"#d946ef"}"></div><button class="btn" id="csv">Salva aspetto</button></div>
+<h2>Personalizza</h2><div class="box"><input id="cw" placeholder="Messaggio di benvenuto" value="${esc(cfg.welcome||"")}"><div style="display:flex;gap:10px"><input id="c1" type="color" value="${cfg.c1||"#6366f1"}"><input id="c2" type="color" value="${cfg.c2||"#d946ef"}"></div><label class="mu" style="display:block;margin:4px 0 10px"><input type="checkbox" id="cx" style="width:auto;margin-right:6px"${cfg.xmas!=="0"?" checked":""}>Tema natalizio 🎄</label><button class="btn" id="csv">Salva aspetto</button></div>
 <h2>Materie</h2><div class="box"><input id="sn" placeholder="Nome (es. Diritto)"><input id="si" placeholder="Icona emoji, es. ⚖️"><input id="sc" type="color" value="#6366f1"><button class="btn" id="sadd">Salva materia</button></div><div style="height:10px"></div>${subs.map(x=>`<div class="card"><div class="cv" style="background:${x.color}">${esc(x.icon)}</div><div class="ct"><b>${esc(x.name)}</b></div><button class="sm" data-sd="${esc(x.name)}">✕</button></div>`).join("")}
 <h2>Persone</h2><div class="box"><input id="ie" type="email" placeholder="Email dell’amico"><input id="ip" value="${genPw()}" placeholder="Password"><select id="ir"><option value="user">Utente</option><option value="premium">Premium</option></select><button class="btn" id="inv">Crea accesso</button></div><div style="height:10px"></div>
 ${cred?`<div class="card"><div class="ct"><b>Credenziali da inviare</b><small>${esc(cred.email)} · ${esc(cred.password)}</small></div><button class="sm" id="cp">Copia</button></div>`:""}
-${ppl.map(p=>`<div class="card wr"><div class="ct"><b>${esc(p.email)}</b>${p.role==="premium"?`<small>Scadenza Premium:</small>`:""}</div>${p.role==="premium"?`<input class="sm" type="date" data-pu="${esc(p.email)}" value="${((prof[p.email]||{}).premium_until||"").slice(0,10)}" style="width:140px">`:""}<select class="sm" data-pr="${esc(p.email)}">${opt(0,p.role)}</select><button class="sm" data-pw="${esc(p.email)}">🔑</button>${p.email===me.email?"":`<button class="sm" data-rm="${esc(p.email)}">✕</button>`}</div>`).join("")}`;
+${ppl.map(p=>`<div class="card wr"><div class="ct"><b>${esc(p.email)}</b>${p.role==="premium"?`<small>Scadenza Premium:</small>`:""}</div>${p.role==="premium"?`<input class="sm" type="date" data-pu="${esc(p.email)}" value="${((prof[p.email]||{}).premium_until||"").slice(0,10)}" style="width:140px">`:""}${dvs.has((prof[p.email]||{}).id)?`<button class="sm" data-dv="${prof[p.email].id}">📱 Sblocca</button>`:""}<select class="sm" data-pr="${esc(p.email)}">${opt(0,p.role)}</select><button class="sm" data-pw="${esc(p.email)}">🔑</button>${p.email===me.email?"":`<button class="sm" data-rm="${esc(p.email)}">✕</button>`}</div>`).join("")}`;
   const run=async(f,ok)=>{try{await f();if(ok)toast(ok);await refresh()}catch(x){toast("Errore: "+(x.message||x))}};
   $("#v").onclick=e=>{const b=e.target.closest("button");if(!b)return;const D=b.dataset;
     if(b.id==="up")run(async()=>{const f=$("#f").files[0];if(!f)throw"Scegli un PDF";const path=crypto.randomUUID()+".pdf";
@@ -220,11 +238,12 @@ ${ppl.map(p=>`<div class="card wr"><div class="ct"><b>${esc(p.email)}</b>${p.rol
     else if(b.id==="cp"){navigator.clipboard.writeText(`Study With Me\n${location.href.split("?")[0]}\nEmail: ${cred.email}\nPassword: ${cred.password}`);toast("Copiato ✓")}
     else if(D.bl)run(async()=>{chk(await sb.from("invites").delete().eq("email",D.bl));await sb.from("profiles").update({role:"blocked"}).eq("email",D.bl);await sb.from("events").update({seen:true}).eq("email",D.bl)},"Account bloccato");
     else if(b.id==="seen")run(async()=>{chk(await sb.from("events").update({seen:true}).eq("seen",false))});
+    else if(D.dv)run(async()=>{chk(await sb.from("devices").delete().eq("user_id",D.dv))},"Dispositivo sbloccato ✓");
     else if(b.id==="padd")run(async()=>{const t=$("#pt").value.trim();if(!t)throw"Scrivi un titolo";let path=null;const f=$("#pf").files[0];
       if(f){path=crypto.randomUUID()+".jpg";chk(await sb.storage.from("bacheca").upload(path,await shrink(f),{contentType:"image/jpeg"}))}
       chk(await sb.from("posts").insert({title:t,body:$("#pb").value.trim(),tier:$("#pa").value,pinned:$("#pp").checked,image_path:path}))},"Pubblicato ✓");
     else if(D.pd){if(armed!==D.pd){armed=D.pd;return adminView()}const x=posts.find(y=>y.id===D.pd);armed="";run(async()=>{if(x.image_path)await sb.storage.from("bacheca").remove([x.image_path]);chk(await sb.from("posts").delete().eq("id",x.id))},"Eliminato")}
-    else if(b.id==="csv")run(async()=>{chk(await sb.from("settings").upsert([{key:"welcome",value:$("#cw").value.trim()},{key:"c1",value:$("#c1").value},{key:"c2",value:$("#c2").value}]))},"Aspetto salvato ✓");
+    else if(b.id==="csv")run(async()=>{chk(await sb.from("settings").upsert([{key:"welcome",value:$("#cw").value.trim()},{key:"c1",value:$("#c1").value},{key:"c2",value:$("#c2").value},{key:"xmas",value:$("#cx").checked?"1":"0"}]))},"Aspetto salvato ✓");
     else if(b.id==="sadd")run(async()=>{const name=$("#sn").value.trim();if(!name)throw"Scrivi il nome della materia";chk(await sb.from("subjects").upsert({name,icon:$("#si").value.trim()||"📘",color:$("#sc").value}))},"Materia salvata ✓");
     else if(D.sd)run(async()=>{await sb.from("documents").update({subject:null}).eq("subject",D.sd);chk(await sb.from("subjects").delete().eq("name",D.sd))},"Materia eliminata");
     else if(D.rm)run(async()=>{chk(await sb.from("invites").delete().eq("email",D.rm));await sb.from("profiles").update({role:"blocked"}).eq("email",D.rm)},"Rimosso")};
@@ -240,7 +259,7 @@ async function draw(pdf,el,W){
   vp=pg.getViewport({scale:W/v.width*dpr}),c=document.createElement("canvas");
   c.width=vp.width;c.height=vp.height;c.style.width=W+"px";c.style.height=vp.height/dpr+"px";
   await pg.render({canvasContext:c.getContext("2d"),viewport:vp}).promise;mark(c);el.style.height="auto";el.replaceChildren(c)}
-async function openDoc(d){
+async function openDoc(d,sp){
   const rd=$("#rd"),box=$("#pg");rd.classList.add("on");rd.classList.remove("hide");curD=d;curPdf=null;
   $("#rt").textContent=d.title;curDoc=d.title;logEv("open",d.title);$("#pn").textContent="";$("#bar").style.width="0";
   box.className=["","night","sepia"][rm];$("#tm").textContent=["🌙","📜","☀️"][rm];$("#ns").classList.remove("on");box.innerHTML=`<div class="sk"></div>`;
@@ -248,7 +267,7 @@ async function openDoc(d){
     const u=chk(await sb.storage.from("pdfs").createSignedUrl(d.path,60)).data.signedUrl;
     curPdf=await pdfjsLib.getDocument({data:await (await fetch(u)).arrayBuffer()}).promise;
     nts=(await sb.from("notes").select("*").eq("doc_id",d.id).order("page")).data||[];
-    await pages((ud[d.id]||{}).page||1);
+    await pages(sp||(ud[d.id]||{}).page||1);
   }catch(e){box.innerHTML=`<p class="c" style="color:#fff">Impossibile aprire il PDF.</p>`}}
 async function pages(start){
   const box=$("#pg"),pdf=curPdf,N=pdf.numPages,d=curD;
@@ -264,15 +283,19 @@ const svSet=()=>{try{localStorage.rz=rz;localStorage.rm=rm}catch(e){}};
 $("#tm").onclick=()=>{rm=(rm+1)%3;$("#pg").className=["","night","sepia"][rm];$("#tm").textContent=["🌙","📜","☀️"][rm];svSet()};
 $("#zi").onclick=()=>{rz=Math.min(2,rz+.25);svSet();if(curPdf)pages(curPg)};
 $("#zo").onclick=()=>{rz=Math.max(.5,rz-.25);svSet();if(curPdf)pages(curPg)};
-const nsHtml=()=>`<div class="row"><b>🔖 Note · pag. ${curPg}</b><button class="sm" id="nx">Chiudi</button></div><input id="nti" placeholder="Nota (facoltativa)" style="margin-top:10px"><button class="btn" id="nad">＋ Aggiungi alla pagina ${curPg}</button>${nts.map(n=>`<div class="card" style="margin-top:8px;box-shadow:none"><div class="ct" data-gp="${n.page}" style="cursor:pointer"><b>Pagina ${n.page}</b><small>${esc(n.text||"Segnalibro")}</small></div><button class="sm" data-nd="${n.id}">✕</button></div>`).join("")||`<p class="mu">Ancora nessuna nota.</p>`}`;
-$("#nt").onclick=()=>{$("#ns").innerHTML=nsHtml();$("#ns").classList.toggle("on")};
-$("#ns").onclick=async e=>{const t=e.target.closest("button,[data-gp]");if(!t)return;
+const nsHtml=()=>`<div class="row"><b>🔖 Note</b><button class="sm" id="nx">Chiudi</button></div><div class="row" style="margin:10px 0"><button class="sm" id="np">−</button><b>Pagina <span id="nl">${notePg}</span></b><button class="sm" id="nn">＋</button></div><input id="nti" placeholder="Nota (facoltativa)"><button class="btn" id="nad">＋ Aggiungi alla pagina ${notePg}</button>${nts.map(n=>`<div class="card" style="margin-top:8px;box-shadow:none"><div class="ct" data-gp="${n.page}" style="cursor:pointer"><b>Pagina ${n.page}</b><small>${esc(n.text||"Segnalibro")}</small></div><button class="sm" data-ne="${n.id}">✎</button><button class="sm" data-nd="${n.id}">✕</button></div>`).join("")||`<p class="mu">Ancora nessuna nota.</p>`}`;
+const goPg=n=>{$("#pg").scrollTop=(n-1)*(curH+10)};
+$("#nt").onclick=()=>{const o=$("#ns");if(!o.classList.contains("on")){notePg=curPg||1;o.innerHTML=nsHtml()}o.classList.toggle("on")};
+$("#ns").onclick=async e=>{const t=e.target.closest("button,[data-gp]");if(!t)return;const N=curPdf?curPdf.numPages:1;
   if(t.id==="nx")$("#ns").classList.remove("on");
-  else if(t.id==="nad"){const r=await sb.from("notes").insert({doc_id:curD.id,page:curPg,text:$("#nti").value.trim()}).select().single();if(!r.error){nts.push(r.data);nts.sort((a,b)=>a.page-b.page);$("#ns").innerHTML=nsHtml()}else toast("Errore nel salvataggio")}
-  else if(t.dataset.gp){$("#pg").scrollTop=(+t.dataset.gp-1)*(curH+10);$("#ns").classList.remove("on")}
+  else if(t.id==="np"||t.id==="nn"){notePg=Math.min(N,Math.max(1,notePg+(t.id==="nn"?1:-1)));$("#nl").textContent=notePg;$("#nad").textContent="＋ Aggiungi alla pagina "+notePg;goPg(notePg)}
+  else if(t.id==="nad"){const r=await sb.from("notes").insert({doc_id:curD.id,page:notePg,text:$("#nti").value.trim()}).select().single();if(!r.error){nts.push(r.data);nts.sort((a,b)=>a.page-b.page);$("#ns").innerHTML=nsHtml();toast("Nota salvata ✓")}else toast("Errore nel salvataggio")}
+  else if(t.dataset.ne){const n=nts.find(x=>x.id==t.dataset.ne);lastBlur=Date.now();const v=prompt("Modifica nota",n.text||"");if(v!==null){await sb.from("notes").update({text:v.trim()}).eq("id",n.id);n.text=v.trim();$("#ns").innerHTML=nsHtml()}}
+  else if(t.dataset.gp){goPg(+t.dataset.gp);$("#ns").classList.remove("on")}
   else if(t.dataset.nd){await sb.from("notes").delete().eq("id",t.dataset.nd);nts=nts.filter(n=>n.id!=t.dataset.nd);$("#ns").innerHTML=nsHtml()}};
+$("#pn").onclick=()=>{if(!curPdf)return;lastBlur=Date.now();const N=curPdf.numPages,v=parseInt(prompt("Vai alla pagina (1-"+N+")"));if(v)goPg(Math.min(N,Math.max(1,v)))};
 $("#cl").onclick=()=>{clearTimeout(svT);if(curD&&curPdf){const N=curPdf.numPages;saveUd(curD.id,{page:curPg||1,total:N,done:!!(ud[curD.id]||{}).done||curPg>=N})}
-  $("#rd").classList.remove("on");$("#ns").classList.remove("on");$("#pg").innerHTML="";curPdf=null;list()};
+  $("#rd").classList.remove("on");$("#ns").classList.remove("on");$("#pg").innerHTML="";curPdf=null;list();sb.from("notes").select("*").order("created_at",{ascending:false}).then(r=>{allNotes=r.data||[];list()})};
 const on=()=>$("#rd").classList.contains("on"),hid=v=>{if(on()&&!$("#ns").classList.contains("on")){$("#rd").classList.toggle("hide",v);if(v&&Date.now()-lastBlur>20000){lastBlur=Date.now();logEv("blur",curDoc)}}};
 ["contextmenu","dragstart","copy","cut","selectstart"].forEach(t=>document.addEventListener(t,e=>{if(on())e.preventDefault()}));
 document.addEventListener("keydown",e=>{if(on()&&(e.ctrlKey||e.metaKey)&&"spcua".includes(e.key.toLowerCase()))e.preventDefault()});
@@ -282,6 +305,11 @@ document.addEventListener("visibilitychange",()=>hid(document.hidden));
 $("#rd").addEventListener("pointerdown",()=>$("#rd").classList.remove("hide"));
 
 setInterval(()=>{if(me&&me.role==="admin")loadEv()},30000);
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches){const c=document.createElement("canvas");c.id="snow";document.body.appendChild(c);const x=c.getContext("2d"),F=[];let W,H;
+  const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight};rs();addEventListener("resize",rs);
+  for(let i=0;i<55;i++)F.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.8,v:.4+Math.random()*1.1,d:Math.random()*6});
+  const f=t=>{requestAnimationFrame(f);x.clearRect(0,0,W,H);if(!X()||document.hidden)return;x.fillStyle="rgba(255,255,255,.95)";x.shadowColor="rgba(90,110,160,.6)";x.shadowBlur=3;
+    for(const o of F){o.y+=o.v;o.x+=Math.sin(t/1500+o.d)*.4;if(o.y>H+5){o.y=-5;o.x=Math.random()*W}x.beginPath();x.arc(o.x,o.y,o.r,0,7);x.fill()}};f(0)}
 $("#md").onclick=e=>{if(e.target.id==="md"||e.target.id==="mx")$("#md").classList.remove("on")};
 sb.auth.onAuthStateChange((ev,s)=>{if(s){if(!me||me.uid!==s.user.id)setTimeout(()=>load(s),0)}else login()});
 </script></body></html>
