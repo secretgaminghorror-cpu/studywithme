@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it" class="xm"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#6366f1"><title>Study With Me</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#6366f1"><meta name="robots" content="noindex,nofollow"><title>Study With Me</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{--bg:#f3f2fb;--cd:#fff;--tx:#17172b;--mu:#6a6a86;--bd:#e7e5f5;--ac:#6366f1;--g:linear-gradient(135deg,#6366f1,#8b5cf6 55%,#d946ef);--sh:0 10px 30px -10px rgba(80,60,180,.25)}
@@ -103,6 +103,14 @@ html.xm{--ac:#dc2626;--g:linear-gradient(135deg,#b91c1c,#dc2626 45%,#15803d)}
 .xm #sp{background:linear-gradient(135deg,#991b1b,#dc2626,#166534,#14532d);background-size:300% 300%}
 .xm #sp .b,.xm .logo{font-size:0}.xm #sp .b::after{content:"🎄";font-size:70px}.xm .logo::after{content:"🎄";font-size:52px}.xm .top h1::after{content:" 🎄"}
 #snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+nav button{padding:10px 16px}#lc{display:flex;gap:8px;margin:0 0 10px}.th{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none}
+.mgrid{display:grid;gap:8px}.mcd{border:0;background:none;padding:0;aspect-ratio:3/4;perspective:600px;cursor:pointer}
+.mcd .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}.mcd.on .in{transform:rotateY(180deg)}
+.mcd .f,.mcd .b{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:var(--sh)}
+.mcd .f{background:var(--g);color:#fff;display:grid;place-items:center;font-size:32px}.mcd .b{transform:rotateY(180deg);background:var(--cd);border:2px solid var(--bd)}
+.mcd .b img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.mcd .b small{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:2px 4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mcd.ok .b{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.55)}
 </style></head>
 <body>
 <div id="sp"><div class="b">📚</div><h1>Study With Me</h1><p>made by Angelo</p><p>powered by Claude</p></div>
@@ -117,7 +125,7 @@ const SB_URL="https://bayeetdnelokwtxgtsmr.supabase.co",SB_KEY="sb_publishable_k
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const sb=supabase.createClient(SB_URL,SB_KEY);
 const DEV=(()=>{try{let d=localStorage.swm_dev;if(!d){d=crypto.randomUUID();localStorage.swm_dev=d}return d}catch(e){return crypto.randomUUID()}})();
-let me=null,docs=[],ppl=[],tab="lib",q="",armed="",cred=null,ev=[],curDoc="",lastBlur=0,ud={},subs=[],nts=[],posts=[],allNotes=[],dvs=new Set(),notePg=1,pimg={},cfg={},prof={},flt="all",rz=1,rm=0,curD=null,curPdf=null,io=null,curPg=0,curH=0,svT=0;
+let me=null,docs=[],ppl=[],tab="lib",q="",armed="",cred=null,ev=[],curDoc="",lastBlur=0,ud={},subs=[],nts=[],posts=[],allNotes=[],dvs=new Set(),notePg=1,gc=[],gimg={},scs=[],mem=null,lbl=6,lastRef=0,pimg={},cfg={},prof={},flt="all",rz=1,rm=0,curD=null,curPdf=null,io=null,curPg=0,curH=0,svT=0;
 try{rz=+localStorage.rz||1;rm=+localStorage.rm||0;if(localStorage.th)document.documentElement.dataset.theme=localStorage.th;if(localStorage.xm==="0")document.documentElement.classList.remove("xm")}catch(e){}
 function tiles(){const a=$("#t1");if(!a)return;const v=Object.values(ud).filter(u=>docs.some(d=>d.id===u.doc_id));a.textContent=docs.length;$("#t2").textContent=v.filter(u=>u.done).length;$("#t3").textContent=v.filter(u=>u.fav).length}
 const sj=d=>subs.find(x=>x.name===d.subject);
@@ -126,6 +134,36 @@ function applyCfg(){const h=document.documentElement,r=h.style,x=cfg.xmas!=="0";
 const X=()=>document.documentElement.classList.contains("xm");
 const xmsg=()=>{const n=new Date(),d=Math.ceil((new Date(n.getFullYear(),11,25)-n)/864e5);return d>1?d+" giorni a Natale 🎁":d===1?"Domani è Natale! 🎁":d===0?"Buon Natale! 🎅":"Buone Feste! 🥂"};
 const shrink=f=>new Promise((ok,ko)=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1200/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*k;c.height=i.height*k;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(b=>b?ok(b):ko("Immagine non valida"),"image/jpeg",.82)};i.onerror=()=>ko("Immagine non valida");i.src=URL.createObjectURL(f)});
+const square=f=>new Promise((ok,ko)=>{const i=new Image();i.onload=()=>{const m=Math.min(i.width,i.height),c=document.createElement("canvas");c.width=c.height=320;c.getContext("2d").drawImage(i,(i.width-m)/2,(i.height-m)/2,m,m,0,0,320,320);c.toBlob(b=>b?ok(b):ko("Immagine non valida"),"image/jpeg",.82)};i.onerror=()=>ko("Immagine non valida");i.src=URL.createObjectURL(f)});
+const nm=m=>m.split("@")[0].replace(/^./,c=>c.toUpperCase());
+const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const loadSc=async()=>{scs=(await sb.from("scores").select("*").eq("game","memory").order("score",{ascending:false}).limit(300)).data||[]};
+const cardEl=i=>document.querySelector('.mcd[data-mc="'+i+'"]');
+function tick(){const e=$("#mt");if(!mem||!mem.t0||mem.end||!e)return;e.textContent=Math.floor((Date.now()-mem.t0)/1000)+"s";setTimeout(tick,500)}
+function lbHtml(){const e=$("#lb");if(!e)return;const best={};scs.filter(s=>s.level===lbl).forEach(s=>{if(!best[s.email]||s.score>best[s.email].score)best[s.email]=s});
+  const r=Object.values(best).sort((a,b)=>b.score-a.score).slice(0,10);
+  e.innerHTML=`<div id="lc">${[6,8,10].map(n=>`<button class="chip${lbl===n?" on":""}" data-lb="${n}">${n} coppie</button>`).join("")}</div>`+(r.length?r.map((s,i)=>`<div class="card"><div class="ic">${["🥇","🥈","🥉"][i]||i+1}</div><div class="ct"><b>${esc(nm(s.email))}</b><small>${s.moves} mosse · ${s.secs}s</small></div><b>${s.score}</b>${me.role==="admin"?`<button class="sm" data-sx="${s.id}">✕</button>`:""}</div>`).join(""):`<p class="mu">Nessun punteggio ancora: sii il primo! 🎅</p>`)}
+function gamesView(){
+  $("#v").onchange=null;const lv=[[6,"Facile"],[8,"Medio"],[10,"Difficile"]];
+  $("#v").innerHTML=`<h2>🎮 Memory</h2>${gc.length<6?`<div class="empty"><div>🃏</div>${me.role==="admin"?"Servono almeno 6 foto: caricale in Admin → Giochi.":"Il gioco sarà disponibile presto!"}</div>`:`<p class="mu" style="margin-top:0">Trova tutte le coppie con poche mosse e nel minor tempo.</p>${lv.filter(l=>gc.length>=l[0]).map(l=>`<button class="btn" style="margin-bottom:10px" data-lv="${l[0]}">▶ ${l[1]} · ${l[0]} coppie</button>`).join("")}`}<div id="mg"></div><h2>🏆 Classifica</h2><div id="lb"></div>`;
+  lbHtml();
+  $("#v").onclick=e=>{const b=e.target.closest("[data-lv],[data-mc],[data-lb],[data-sx]");if(!b)return;const D=b.dataset;
+    if(D.lv)startMem(+D.lv);else if(D.mc!==undefined)flip(+D.mc);else if(D.lb){lbl=+D.lb;lbHtml()}
+    else if(D.sx)sb.from("scores").delete().eq("id",D.sx).then(async()=>{await loadSc();lbHtml()})}}
+function startMem(n){const pick=shuf([...gc]).slice(0,n),deck=shuf([...pick,...pick]);
+  mem={pairs:n,deck,open:[],done:new Set(),moves:0,t0:0,lock:false,end:false};
+  $("#mg").innerHTML=`<div class="row" style="margin:12px 0"><b>⏱ <span id="mt">0s</span></b><b>👣 <span id="mm">0</span> mosse</b></div><div class="mgrid" style="grid-template-columns:repeat(${n===6?3:4},1fr)">${deck.map((c,i)=>`<button class="mcd" data-mc="${i}"><div class="in"><div class="f">${X()?"🎁":"❓"}</div><div class="b"><img src="${gimg[c.image_path]||""}" alt="" draggable="false"><small>${esc(c.label)}</small></div></div></button>`).join("")}</div>`;
+  $("#mg").scrollIntoView({behavior:"smooth"})}
+function flip(i){const m=mem;if(!m||m.lock||m.end||m.open.includes(i)||m.done.has(i))return;
+  if(!m.t0){m.t0=Date.now();tick()}
+  m.open.push(i);cardEl(i).classList.add("on");
+  if(m.open.length===2){m.moves++;$("#mm").textContent=m.moves;const[a,b]=m.open;
+    if(m.deck[a].id===m.deck[b].id){m.done.add(a);m.done.add(b);m.open=[];cardEl(a).classList.add("ok");cardEl(b).classList.add("ok");toast("✨ "+m.deck[a].label);if(m.done.size===m.deck.length)win()}
+    else{m.lock=true;setTimeout(()=>{cardEl(a).classList.remove("on");cardEl(b).classList.remove("on");m.open=[];m.lock=false},750)}}}
+async function win(){const m=mem,secs=Math.round((Date.now()-m.t0)/1000);m.end=true;const score=Math.max(50,Math.round(m.pairs*200-secs*2-(m.moves-m.pairs)*10));
+  const r=await sb.from("scores").insert({email:me.email,game:"memory",level:m.pairs,moves:m.moves,secs,score});
+  toast("🎉 "+score+" punti!");$("#mg").insertAdjacentHTML("afterbegin",`<div class="card hero"><div class="ct"><b>🎉 Complimenti! ${score} punti</b><small>${m.moves} mosse · ${secs}s${r.error?" · punteggio non salvato":""}</small></div><button class="sm" data-lv="${m.pairs}">Rigioca</button></div>`);
+  lbl=m.pairs;await loadSc();lbHtml()}
 function bk(){const e=$("#bk");if(!e||!posts.length)return;
   e.innerHTML=`<h2>Bacheca</h2><div class="bks">${posts.map(x=>`<div class="bp" data-p="${x.id}">${x.image_path&&pimg[x.image_path]?`<img src="${pimg[x.image_path]}" alt="" draggable="false">`:`<div class="bph">📌</div>`}<div class="bt"><b>${x.pinned?"📌 ":""}${esc(x.title)}</b><small>${esc(x.body||"")}</small></div></div>`).join("")}</div>`}
 function showPost(x){if(!x)return;const m=$("#md");
@@ -166,23 +204,28 @@ async function load(s){
   if(me.role!=="admin"){const r=await sb.rpc("claim_device",{p_device:DEV});if(r.error||r.data!=="ok"){await sb.auth.signOut();login(r.error?"Errore: "+r.error.message:"Questo account è già usato su un altro dispositivo. Chiedi ad Angelo di sbloccarlo.");return}}
   await refresh()}
 async function refresh(){
+  lastRef=Date.now();
   docs=(await sb.from("documents").select("*").order("created_at",{ascending:false})).data||[];
   posts=(await sb.from("posts").select("*").order("pinned",{ascending:false}).order("created_at",{ascending:false}).limit(20)).data||[];
   pimg={};const pp=posts.filter(x=>x.image_path).map(x=>x.image_path);
   if(pp.length)((await sb.storage.from("bacheca").createSignedUrls(pp,3600)).data||[]).forEach(x=>pimg[x.path]=x.signedUrl);
   cfg={};((await sb.from("settings").select("*")).data||[]).forEach(r=>cfg[r.key]=r.value);applyCfg();
+  gc=(await sb.from("game_cards").select("*").order("created_at")).data||[];gimg={};
+  if(gc.length)((await sb.storage.from("giochi").createSignedUrls(gc.map(x=>x.image_path),3600)).data||[]).forEach(x=>gimg[x.path]=x.signedUrl);
+  await loadSc();
   subs=(await sb.from("subjects").select("*").order("name")).data||[];
   allNotes=(await sb.from("notes").select("*").order("created_at",{ascending:false})).data||[];
   ud={};((await sb.from("user_docs").select("*")).data||[]).forEach(r=>ud[r.doc_id]=r);
   if(me.role==="admin"){ppl=(await sb.from("invites").select("*").order("email")).data||[];prof={};((await sb.from("profiles").select("id,email,premium_until")).data||[]).forEach(r=>prof[r.email]=r);dvs=new Set(((await sb.from("devices").select("user_id")).data||[]).map(r=>r.user_id));await loadEv()}
   shell()}
 function shell(){
-  $("#app").innerHTML=`<div class="top"><i class="bl b1"></i><i class="bl b2"></i><div class="row"><div><small>📚 Study With Me <span class="pill">${ROLE[me.role]}</span>${X()?`<span class="pill">${xmsg()}</span>`:""}</small><h1>${X()?"Buone Feste":"Ciao"}, ${esc(me.email.split("@")[0].replace(/^./,c=>c.toUpperCase()))}!</h1>${cfg.welcome?`<small style="display:block;margin-top:4px">${esc(cfg.welcome)}</small>`:""}</div><div class="acts"><button class="out" id="th">🌓</button><button class="out" id="lo">Esci</button></div></div><div class="tiles"><div><b id="t1">0</b><small>PDF</small></div><div><b id="t2">0</b><small>Finiti</small></div><div><b id="t3">0</b><small>Preferiti</small></div></div></div><main id="v"></main>${me.role==="admin"?`<nav><button data-t="lib">📖 Libreria</button><button data-t="adm">⚙️ Admin<span class="nb" id="nb"></span></button></nav>`:""}`;
+  $("#app").innerHTML=`<div class="top"><i class="bl b1"></i><i class="bl b2"></i><div class="row"><div><small>📚 Study With Me <span class="pill">${ROLE[me.role]}</span>${X()?`<span class="pill">${xmsg()}</span>`:""}</small><h1>${X()?"Buone Feste":"Ciao"}, ${esc(me.email.split("@")[0].replace(/^./,c=>c.toUpperCase()))}!</h1>${cfg.welcome?`<small style="display:block;margin-top:4px">${esc(cfg.welcome)}</small>`:""}</div><div class="acts"><button class="out" id="th">🌓</button><button class="out" id="lo">Esci</button></div></div><div class="tiles"><div><b id="t1">0</b><small>PDF</small></div><div><b id="t2">0</b><small>Finiti</small></div><div><b id="t3">0</b><small>Preferiti</small></div></div></div><main id="v"></main><nav><button data-t="lib">📖 Libreria</button><button data-t="gm">🎮 Giochi</button>${me.role==="admin"?`<button data-t="adm">⚙️ Admin<span class="nb" id="nb"></span></button>`:""}</nav>`;
   $("#lo").onclick=()=>sb.auth.signOut();
   $("#th").onclick=()=>{const c=document.documentElement,d=(c.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"))==="dark"?"light":"dark";c.dataset.theme=d;try{localStorage.th=d}catch(e){}};
   document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;view()});badge();tiles();view()}
 function view(){
   document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+  if(tab==="gm")return gamesView();
   if(tab==="adm"&&me.role==="admin")return adminView();
   $("#v").onchange=null;
   $("#v").innerHTML=`<div id="bk"></div><input id="sq" class="sq" placeholder="🔍 Cerca un PDF…" value="${esc(q)}"><div id="ch"></div><div id="ls"></div>`;
@@ -219,6 +262,7 @@ function adminView(){
 <h2>I tuoi PDF</h2>${docs.map(d=>`<div class="card wr">${cover(d.title,d)}<div class="ct"><b>${esc(d.title)}</b><small>${tier(d)}</small></div><select class="sm" data-sj="${d.id}"><option value="">—</option>${subs.map(x=>`<option${x.name===d.subject?" selected":""}>${esc(x.name)}</option>`).join("")}</select><button class="sm" data-tt="${d.id}">${d.tier==="premium"?"→ Tutti":"→ Premium"}</button><button class="sm" data-dl="${d.id}">${armed===d.id?"Sicuro?":"🗑"}</button></div>`).join("")||`<p class="mu">Nessun PDF.</p>`}
 <h2>Bacheca</h2><div class="box"><input id="pt" placeholder="Titolo"><textarea id="pb" rows="3" placeholder="Testo (facoltativo)"></textarea><select id="pa"><option value="user">Per tutti</option><option value="premium">Solo Premium</option></select><input id="pf" type="file" accept="image/*"><label class="mu"><input type="checkbox" id="pp" style="width:auto;margin-right:6px">Fissa in alto</label><button class="btn" id="padd" style="margin-top:10px">Pubblica</button></div><div style="height:10px"></div>${posts.map(x=>`<div class="card"><div class="ct"><b>${esc(x.title)}</b><small>${x.tier==="premium"?"⭐ Premium":"Per tutti"}${x.pinned?" · 📌":""}</small></div><button class="sm" data-pd="${x.id}">${armed===x.id?"Sicuro?":"🗑"}</button></div>`).join("")}
 <h2>Personalizza</h2><div class="box"><input id="cw" placeholder="Messaggio di benvenuto" value="${esc(cfg.welcome||"")}"><div style="display:flex;gap:10px"><input id="c1" type="color" value="${cfg.c1||"#6366f1"}"><input id="c2" type="color" value="${cfg.c2||"#d946ef"}"></div><label class="mu" style="display:block;margin:4px 0 10px"><input type="checkbox" id="cx" style="width:auto;margin-right:6px"${cfg.xmas!=="0"?" checked":""}>Tema natalizio 🎄</label><button class="btn" id="csv">Salva aspetto</button></div>
+<h2>Giochi · Memory</h2><div class="box"><input id="gl" placeholder="Nome (se scegli una sola foto)"><input id="gf" type="file" accept="image/*" multiple><p class="mu" style="font-size:13px;margin:0 0 10px">Con più foto il nome è quello del file. Servono almeno 6 foto. Usa solo foto di persone che hanno dato il consenso.</p><button class="btn" id="gadd">Aggiungi foto</button></div><div style="height:10px"></div>${gc.map(x=>`<div class="card"><img class="th" src="${gimg[x.image_path]||""}" alt=""><div class="ct"><b>${esc(x.label)}</b></div><button class="sm" data-gd="${x.id}">${armed===x.id?"Sicuro?":"🗑"}</button></div>`).join("")}
 <h2>Materie</h2><div class="box"><input id="sn" placeholder="Nome (es. Diritto)"><input id="si" placeholder="Icona emoji, es. ⚖️"><input id="sc" type="color" value="#6366f1"><button class="btn" id="sadd">Salva materia</button></div><div style="height:10px"></div>${subs.map(x=>`<div class="card"><div class="cv" style="background:${x.color}">${esc(x.icon)}</div><div class="ct"><b>${esc(x.name)}</b></div><button class="sm" data-sd="${esc(x.name)}">✕</button></div>`).join("")}
 <h2>Persone</h2><div class="box"><input id="ie" type="email" placeholder="Email dell’amico"><input id="ip" value="${genPw()}" placeholder="Password"><select id="ir"><option value="user">Utente</option><option value="premium">Premium</option></select><button class="btn" id="inv">Crea accesso</button></div><div style="height:10px"></div>
 ${cred?`<div class="card"><div class="ct"><b>Credenziali da inviare</b><small>${esc(cred.email)} · ${esc(cred.password)}</small></div><button class="sm" id="cp">Copia</button></div>`:""}
@@ -238,6 +282,10 @@ ${ppl.map(p=>`<div class="card wr"><div class="ct"><b>${esc(p.email)}</b>${p.rol
     else if(b.id==="cp"){navigator.clipboard.writeText(`Study With Me\n${location.href.split("?")[0]}\nEmail: ${cred.email}\nPassword: ${cred.password}`);toast("Copiato ✓")}
     else if(D.bl)run(async()=>{chk(await sb.from("invites").delete().eq("email",D.bl));await sb.from("profiles").update({role:"blocked"}).eq("email",D.bl);await sb.from("events").update({seen:true}).eq("email",D.bl)},"Account bloccato");
     else if(b.id==="seen")run(async()=>{chk(await sb.from("events").update({seen:true}).eq("seen",false))});
+    else if(b.id==="gadd")run(async()=>{const fs=[...$("#gf").files];if(!fs.length)throw"Scegli almeno una foto";
+      for(const f of fs){const lab=(fs.length===1&&$("#gl").value.trim())||f.name.replace(/\.[^.]+$/,""),path=crypto.randomUUID()+".jpg";
+        chk(await sb.storage.from("giochi").upload(path,await square(f),{contentType:"image/jpeg"}));chk(await sb.from("game_cards").insert({label:lab,image_path:path}))}},"Foto aggiunte ✓");
+    else if(D.gd){if(armed!==D.gd){armed=D.gd;return adminView()}const x=gc.find(y=>y.id===D.gd);armed="";run(async()=>{await sb.storage.from("giochi").remove([x.image_path]);chk(await sb.from("game_cards").delete().eq("id",x.id))},"Eliminata")}
     else if(D.dv)run(async()=>{chk(await sb.from("devices").delete().eq("user_id",D.dv))},"Dispositivo sbloccato ✓");
     else if(b.id==="padd")run(async()=>{const t=$("#pt").value.trim();if(!t)throw"Scrivi un titolo";let path=null;const f=$("#pf").files[0];
       if(f){path=crypto.randomUUID()+".jpg";chk(await sb.storage.from("bacheca").upload(path,await shrink(f),{contentType:"image/jpeg"}))}
@@ -310,6 +358,7 @@ if(!matchMedia("(prefers-reduced-motion:reduce)").matches){const c=document.crea
   for(let i=0;i<55;i++)F.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.8,v:.4+Math.random()*1.1,d:Math.random()*6});
   const f=t=>{requestAnimationFrame(f);x.clearRect(0,0,W,H);if(!X()||document.hidden)return;x.fillStyle="rgba(255,255,255,.95)";x.shadowColor="rgba(90,110,160,.6)";x.shadowBlur=3;
     for(const o of F){o.y+=o.v;o.x+=Math.sin(t/1500+o.d)*.4;if(o.y>H+5){o.y=-5;o.x=Math.random()*W}x.beginPath();x.arc(o.x,o.y,o.r,0,7);x.fill()}};f(0)}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&me&&!on()&&tab==="lib"&&Date.now()-lastRef>180000)refresh()});
 $("#md").onclick=e=>{if(e.target.id==="md"||e.target.id==="mx")$("#md").classList.remove("on")};
 sb.auth.onAuthStateChange((ev,s)=>{if(s){if(!me||me.uid!==s.user.id)setTimeout(()=>load(s),0)}else login()});
 </script></body></html>
